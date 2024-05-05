@@ -1,5 +1,16 @@
 use chrono::{DateTime, Local, TimeZone};
 
+use num_traits::Pow;
+use statrs::distribution::ContinuousCDF;
+use statrs::distribution::{Continuous, Normal};
+use statrs::statistics::Distribution;
+
+fn N(x: f64) -> f64 {
+    let normal_distribution = Normal::new(0.0, 1.0).unwrap();
+
+    normal_distribution.cdf(x)
+}
+
 /// A call option
 struct Call {
     /// The price at which the option holder can exercise the option
@@ -15,6 +26,26 @@ impl Call {
         (self.maturity - current_date).num_days() as f64 / 365.0
     }
 
+    fn d1(
+        &self,
+        spot_price: f64,
+        time_to_maturity: f64,
+        risk_free_rate: f64,
+        volatility: f64,
+    ) -> f64 {
+        (1.0 / (time_to_maturity.sqrt() * volatility))
+            * (spot_price / self.strike).ln()
+            + (time_to_maturity * (risk_free_rate + volatility.powf(2.0) / 2.0))
+    }
+
+    fn d2(
+        &self,
+        d1: f64,
+        time_to_maturity: f64,
+        volatility: f64
+    ) -> f64 {
+        d1 - (volatility * time_to_maturity.sqrt())
+    }
 }
 
 fn main() {
