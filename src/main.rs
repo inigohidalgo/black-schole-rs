@@ -2,12 +2,16 @@
 //! 
 //! Refer to Hull, John C. *Options, Futures, and Other Derivatives* (10th ed., pp 333, 334).
 
+// use core::time;
+
 use chrono::{DateTime, Local, TimeZone};
 
-use num_traits::Pow;
+// use num_traits::Pow;
 use statrs::distribution::ContinuousCDF;
-use statrs::distribution::{Continuous, Normal};
-use statrs::statistics::Distribution;
+use statrs::distribution::{
+    // Continuous,
+    Normal};
+// use statrs::statistics::Distribution;
 
 fn N(x: f64) -> f64 {
     let normal_distribution = Normal::new(0.0, 1.0).unwrap();
