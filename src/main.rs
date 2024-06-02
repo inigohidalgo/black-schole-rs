@@ -1,3 +1,7 @@
+//! Implementation of Black-Scholes' Option Pricing Formula
+//! 
+//! Refer to Hull, John C. *Options, Futures, and Other Derivatives* (10th ed., pp 333, 334).
+
 use chrono::{DateTime, Local, TimeZone};
 
 use num_traits::Pow;
