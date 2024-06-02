@@ -232,6 +232,7 @@ name = "option_pricing"
 version = "0.1.0"
 dependencies = [
  "chrono",
+ "num-traits",
  "statrs",
 ]
 

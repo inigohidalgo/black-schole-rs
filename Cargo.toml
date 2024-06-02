@@ -5,4 +5,5 @@ edition = "2021"
 
 [dependencies]
 chrono = "0.4.38"
+num-traits = "0.2.19"
 statrs = "0.16.0"
