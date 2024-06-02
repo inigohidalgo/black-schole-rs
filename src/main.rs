@@ -13,7 +13,10 @@ use statrs::distribution::{
     Normal};
 // use statrs::statistics::Distribution;
 
-fn N(x: f64) -> f64 {
+/// Cumulative probability distribution function for a variable with a standard normal distribution
+/// 
+/// The probability that a variable would be less than or equal to `x`
+fn standard_normal_cdf(x: f64) -> f64 {
     let normal_distribution = Normal::new(0.0, 1.0).unwrap();
 
     normal_distribution.cdf(x)
@@ -53,6 +56,22 @@ impl Call {
         volatility: f64
     ) -> f64 {
         d1 - (volatility * time_to_maturity.sqrt())
+    }
+
+    fn price(
+        &self,
+        spot_price: f64,
+        time_to_maturity: f64,
+        risk_free_rate: f64,
+        volatility: f64,
+    ) -> f64 {
+        let d1 = self.d1(spot_price, time_to_maturity, risk_free_rate, volatility);
+        let d2 = self.d2(d1, time_to_maturity, volatility);
+        let call_price = (
+            (spot_price * standard_normal_cdf(d1)) -
+            (self.strike *  std::f64::consts::E.powf(-risk_free_rate * time_to_maturity) * standard_normal_cdf(d2))
+        );
+        call_price
     }
 }
 
